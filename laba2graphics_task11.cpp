@@ -13,6 +13,8 @@ GLuint VBO;
 GLuint IBO;
 GLuint gWorldLocation;
 
+#define WINDOW_WIDTH 1024
+#define WINDOW_HEIGHT 768
 
 static const char* pVS = "                                                          \n\
 #version 330                                                                        \n\
@@ -41,15 +43,16 @@ void main()                                                                     
     FragColor = Color;                                                              \n\
 }";
 
+
 static void RenderSceneCB() {
     glClear(GL_COLOR_BUFFER_BIT);
     static float Scale = 0.0f;
-    Scale += 0.001f;
+    Scale += 0.1f;
 
     Pipeline p;
-    p.Scale(sinf(Scale * 0.1f), sinf(Scale * 0.1f), sinf(Scale * 0.1f));
-    p.WorldPos(sinf(Scale), 0.0f, 0.0f);
-    p.Rotate(sinf(Scale) * 90.0f, sinf(Scale) * 90.0f, sinf(Scale) * 90.0f);
+    p.Rotate(0.0f, Scale, 0.0f);
+    p.WorldPos(0.0f, 0.0f, 5.0f);
+    p.SetPerspectiveProj(100.0f, WINDOW_WIDTH, WINDOW_HEIGHT, 1.5f, 100.0f);
 
     glUniformMatrix4fv(gWorldLocation, 1, GL_TRUE, (const GLfloat*)p.GetTrans());
     glEnableVertexAttribArray(0);
@@ -64,9 +67,9 @@ static void RenderSceneCB() {
 
 void CreateVertexBuffer() {
     glm::vec3 Vertices[4];
-    Vertices[0] = glm::vec3(-1.0f, -1.0f, 0.0f);
-    Vertices[1] = glm::vec3(0.0f, -1.0f, 1.0f);
-    Vertices[2] = glm::vec3(1.0f, -1.0f, 0.0f);
+    Vertices[0] = glm::vec3(-1.0f, -1.0f, 0.5773f);
+    Vertices[1] = glm::vec3(0.0f, -1.0f, -1.15475);
+    Vertices[2] = glm::vec3(1.0f, -1.0f, 0.5773f);
     Vertices[3] = glm::vec3(0.0f, 1.0f, 0.0f);
 
     glGenBuffers(1, &VBO);
@@ -158,7 +161,7 @@ int main(int argc, char** argv)
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(1080, 720);
     glutInitWindowPosition(100, 100);
-    glutCreateWindow("Tutorial11");
+    glutCreateWindow("Tutorial12");
     InitializeGlutCallbacks();
 
     GLenum res = glewInit();

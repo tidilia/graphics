@@ -18,6 +18,15 @@ private:
 	void InitScaleTransform(glm::mat4x4& m) const;
 	void InitRotateTransform(glm::mat4x4& m) const;
 	void InitTranslationTransform(glm::mat4x4& m) const;
+	void InitPerspectiveProj(glm::mat4x4& m) const;
+
+	struct {
+		float FOV;
+		float Width;
+		float Height;
+		float zNear;
+		float zFar;
+	} m_persProj;
 
 public:
 	Pipeline() {
@@ -41,5 +50,14 @@ public:
 		m_rotateInfo.z = rotateZ;
 	}
 	const glm::mat4x4* GetTrans();
+
+	void SetPerspectiveProj(float FOV, float Width, float Height, float zNear, float zFar)
+	{
+		m_persProj.FOV = FOV;
+		m_persProj.Width = Width;
+		m_persProj.Height = Height;
+		m_persProj.zNear = zNear;
+		m_persProj.zFar = zFar;
+	}
 };
 

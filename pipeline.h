@@ -15,10 +15,6 @@ private:
 	glm::vec3 m_rotateInfo;
 	glm::mat4x4 m_transformation;
 
-	void InitScaleTransform(glm::mat4x4& m) const;
-	void InitRotateTransform(glm::mat4x4& m) const;
-	void InitTranslationTransform(glm::mat4x4& m) const;
-	void InitPerspectiveProj(glm::mat4x4& m) const;
 
 	struct {
 		float FOV;
@@ -27,6 +23,11 @@ private:
 		float zNear;
 		float zFar;
 	} m_persProj;
+	struct {
+		glm::vec3 Pos;
+		glm::vec3 Target;
+		glm::vec3 Up;
+	} m_camera;
 
 public:
 	Pipeline() {
@@ -51,13 +52,18 @@ public:
 	}
 	const glm::mat4x4* GetTrans();
 
-	void SetPerspectiveProj(float FOV, float Width, float Height, float zNear, float zFar)
-	{
+	void SetPerspectiveProj(float FOV, float Width, float Height, float zNear, float zFar){
 		m_persProj.FOV = FOV;
 		m_persProj.Width = Width;
 		m_persProj.Height = Height;
 		m_persProj.zNear = zNear;
 		m_persProj.zFar = zFar;
+	}
+
+	void SetCamera(const  glm::vec3& Pos, const  glm::vec3& Target, const  glm::vec3& Up){
+		m_camera.Pos = Pos;
+		m_camera.Target = Target;
+		m_camera.Up = Up;
 	}
 };
 
